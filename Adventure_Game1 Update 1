@@ -32,11 +32,11 @@ pumpkin_tart = int(0) # Key item required to unlock a specific ending.
 
 # First room choice 
 while True:
-    choice_2 = input("In front of you, you see two doors. On the left door there seems to be an intimidating depiction of a skull and crossbones. On the right you see a more inviting drawing of a book. Which do you choose? ('left'/'right') ")
-    if choice_2 == "left" or choice_2 == "right":
+    choice_2 = input("In front of you, you see two doors. On the left door, there seems to be an intimidating depiction of a skull and crossbones. On the right, you see a more inviting drawing of a book. Which do you choose? ('left'/'right') ").lower()
+    if choice_2 in ["left", "right"]:
         break 
     else:
-        print("Invalid choice") 
+        print("Invalid choice. Please try again.")
 
 # Lines 42 - 
 if choice_2 == "left": # skull and crossbones indicate a combat room. 
@@ -185,6 +185,7 @@ if choice_2 == "right": # a book indicates a story room. Going through all of th
                     print("The ogre doesn't seem to care about anymore as it runs further into the trees. You dont know what you've unleashed upon the world but you are glad you are done with that mess.")
                     print("END")
                     sys.exit()
+
 
 
     
