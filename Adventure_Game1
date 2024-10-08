@@ -1,0 +1,193 @@
+import sys # Allows for the use of the sys.exit() function to stop the program as soon as the player's health hits 0. 
+import random # Allows for the use of randrange() function to generate a random number in a given range.
+
+"""
+Ritvik Donga - Cave - Due October 9, 2024
+
+This is a 'choose your own adventure' text-based game. In this game you will play as the protagonist who stumbles upon
+a mysterious dungeon. You will be able to explore the dungeon, fight enemies and uncover hidden secrets! 
+"""
+print("You are returning home after a long day when you spot something unusual. In the woods you pass by every day, you see something that looks like an opening to a cave jutting out of the ground. It's eerie, you swear you've never seen this before but it's almost as if you need to investigate, almost as if something is calling you inside.")
+while True: # Infinate loop to check if player input is a valid input.
+    choice_1 = input("You have to make a decision, do you go and investigate this mysterious cave? Or do you ignore it and go on with your day as usual? ('enter'/'leave') ")
+    if choice_1 == "enter" or choice_1 == "leave":
+        break # if input is valid, exits loop and continues program.
+    else:
+        print("Invalid choice") # if input is invalid, prompts user to give a new input. 
+if choice_1 == "enter": # This option begins the game.
+    print("You enter the cave, walk down the steps that take you underground. At the bottom of the staircase is a large rectangular room with walls made of bricks and lined with torches. The room is empty aside from a sword laying on the ground that you pick up just in case. ")
+if choice_1 == "leave": # This option is just for fun and lets you 'skip' the game entirely. 
+    print("You decide it's not worth your time. It's too creepy anyway. You continue your walk home and, soon enough, you forget about this incident, never to see the mysterious cave again. ")
+    sys.exit()
+
+def health_check(): 
+    if health <= 0: # Function to perform a health check after every instance of health loss. If health equals 0, game ends. 
+            print("As your health drops to zero you feel your consciousness slowly fading away. Game Over!")
+            sys.exit()
+# All of the various counters will be displayed here:
+health = int(100) # health counter. If the counter hits 0, game ends instantly.
+story_page = int(0) # Story page counter. When all pages are collected unlocks a secret.
+red_gem = int(0) # red gem is a key item that allows the player to unlock a new weapon later on. 
+pumpkin_tart = int(0) # Key item required to unlock a specific ending. 
+
+# First room choice 
+while True:
+    choice_2 = input("In front of you, you see two doors. On the left door there seems to be an intimidating depiction of a skull and crossbones. On the right you see a more inviting drawing of a book. Which do you choose? ('left'/'right') ")
+    if choice_2 == "left" or choice_2 == "right":
+        break 
+    else:
+        print("Invalid choice") 
+
+# Lines 42 - 
+if choice_2 == "left": # skull and crossbones indicate a combat room. 
+    print("You walk up to the left door and push it with all your might. As the dust settles, you catch your first glimpse at this new room, except, you cant see anything... Suddenly, torches lining the walls illuminate and you spot two skeletons! It's time for your first fight! ")
+    while True:
+        fight_1 = input("You scan your enemies and develop a strategy. You notice that one of the skeletons is standing further back with some sort of scepter, it might be able to hit you with magic if you leave it alone. The other is a simple fighter skeleton, it wields a sword and won't be able to hit you if you are too far form it. Will you run ahead and fight the mage first or will you take on the fighter first? ('mage'/'fighter') ")
+        if fight_1 == "mage" or fight_1 == "fighter":
+            break 
+        else:
+            print("Invalid choice") 
+    # Strategy element that allows you to decide how the battle plays out. The outcome will change accordingly: 
+    if fight_1 == "mage": # "good ending" > exit without losing health
+        print("You run around the first skeleton and swiftly eliminate the mage, then, you turn around and take out the other skeleton. The brittle skeletons fall with single hit of your sword. You got through your first battle unscathed!")
+    if fight_1 == "fighter": # "bad ending" > damage taken 
+        health -= int(random.randint(12,18)) # All damage is randomized within a small range to make every playthrough diffrent.
+        print("You quickly eliminate the fighter skeleton however, while you were distracted the mage hits you with a magic spell! Your health reduces to {}. ".format(health))
+        health_check()
+        print("You finish off the mage but you didn't get through this battle unscathed. ")
+
+# Lines 59 - 105 are for the maze room.
+if choice_2 == "right": # a book indicates a story room. Going through all of the story rooms and collecting the story pages will unlock a secret at the end of the game.
+    print("You choose the right door, wondering what the symbol could mean. When you enter, you are immediately face to face with a dusty bookshelf. You look left and right but all you see are more bookshelves")
+    while True:
+        choice_3 = input("You realize what this is, it's a maze! Here's your first decision, do you start by going left or right first? ('left'/'right') ")
+        if choice_3 == "left" or choice_3 == "right":
+            break 
+        else:
+            print("Invalid choice") 
+    if choice_3 == "left": 
+        print("Nice job! It seems you chose the right path. You walk through the endless bookshelves and quickly encounter the next crossroads.")
+    if choice_3 == "right": 
+        print("You turn right and walk to the end of the bookshelves where you turn right once more. However, as soon as you turn you realize this path was a dead end so you return to the entrance and go left this time. It is not long before you reach the next crossroad. ")
+    while True:    
+        choice_4a = input("This time, you are presented with three paths. Down the left path, you see a dead end but, there is something glistening at the end of the path. You can't see anything down the straight path but you can tell there is a turn at the end of it. The right path is pitch black, venture with caution. Which do you choose? ('left'/'straight'/right') ")
+        if choice_4a == "left" or choice_4a == "straight" or choice_4a == "right":
+            break 
+        else:
+            print("Invalid choice") 
+    if choice_4a == "left":
+        health -= int(random.randint(5,9))
+        red_gem += 1
+        print("You walk down the path and pick {} red gem!".format(red_gem))
+        print("While you were distracted looking at it you walk through a tripwire and straight into a trap! Your health drops to {}. ".format(health))
+        health_check()
+        while True:    
+            choice_4b = input("You return to the starting point. Do you go straight or right now? ('straight'/'right') ")
+            if choice_4b == "straight" or choice_4b == "right":
+                break 
+            else:
+                print("Invalid choice") 
+    if choice_4a or choice_4b == "straight":
+        print("You choose to go forward and see a bright light ahead, you found the exit!")
+        print("before walking out, you notice a dusty book on the floor, You quickly put it into your bag and continue forward. " ) 
+        story_page += 1
+    #if choice_4b
+    elif choice_4a or choice_4b == "right":
+        print("you choose the right path, intrigued by it's mystery." )
+        while True:
+            choice_5 = input("'Are you sure you want to go down this path?' You ask yourself. ('turn back'/'keep going') ")
+            if choice_5 == "turn back" or choice_5 == "keep going":
+                break
+            else:
+                print("Invalid choice")
+        if choice_5 == "turn back":
+            story_page += 1
+            print("You turn back and notice that the left path is now blocked off by a bookshelf.")
+            print("You choose the only other option and continue straight. Luckily this path leads to the exit!")
+            print("On your way out, you pck up {} dusty book and put it into your bag.".format(story_page))
+    
+# Lines 108 - enter
+        if choice_5 == "keep going":
+            print("You decide to continue, soon enough you are engulfed in darkness. You look behind you, pitch black, there is no turning back now.")
+            health -= int(random.randint(28,32))
+            print("Suddenly, you feel the ground underneath you give away. You fall fo a while, still unable to see anything.")
+            print("When you hit the ground again you take significant damage, your health drops to {}".format(health))
+            health_check()
+            print("You look around, you are in a dark room lit with a dim purple light. There are thick chains nailed to the walls, it almost seems like a prison of some sort.")
+            print("An old man walks out of the shadows. He holds a stone staff with a green fire at the tip.")
+            while True:    
+                choice_5b = input('"You are not supposed to be down here... If you stay you will suffer a fate worse than death! Let me take your life, it will be a peaceful end, much better than what will happen if you stay." ("accept"/"deny") ')
+                if choice_5b == "accept" or choice_5b == "deny":
+                    break
+                else:
+                    print("invalid choice")
+            if choice_5b == "accept":
+                print("You choose the grim fate of death. You can't imagine anything worse than death but something about this old man makes you believe him." )
+                print("Your life slowly fades away as he puts his staff to your chest but, strangely enough, you feel at peace, as if you've dodged a bullet.")
+                print("END")
+                sys.exit()
+            if choice_5b == "deny":
+                print("You deny his crazy proposition, there can't possibly be a fate worse than death right? The man stares at you with a saddened look before leaving into the darkness once again.")
+                print("You continue forward, it only gets darker and darker until you finally end up in a large cavern.")
+                health -= int(random.randint(8,14))
+                print("Suddenly, you are slammed to the ground. Your health drops to {}. You see the creature , it is a huge ogre with hundreds of wicked twisting horns coming from its body.".format(health))
+                health_check()
+                if red_gem == 0: # This fight will differ depending on wether you picked up the key item from the maze room.
+                    while True:    
+                        fight_2 = input("You jump to your feet, the creature is awaiting your next move. You notice the creature has horns where it's eyes should be. Do you run head on or do you sneak behind it? ('run'/'sneak') ")
+                        if fight_2 == "run" or fight_2 == "sneak":
+                            break
+                        else:
+                            print("invalid choice")
+                    if fight_2 == "run":
+                        health -= int(random.randint(20,23))
+                        print("You charge forward swinging your sword wildly. You deal significant damage!")
+                        print("However, this reckless attack causes you to take a hit as well. Your health drops to {}. ".format(health))
+                        health_check()
+                    if fight_2 == "sneak":
+                        print("You quietly sneak behind the ogre and attack when it is not expecting it.")
+                    while True:    
+                        fight_2b = input("You notice its legs are not completely covered in horns, this may be a weak spot! Do you go all in on the legs or play it safe? ('legs'/'safe') ")
+                        if fight_2b == "legs" or fight_2b == "safe":
+                            break
+                        else:
+                            print("invalid choice") 
+                    if fight_2b == "legs":
+                        health -= int(random.randint(22,27))
+                        print("You charge once again swinging with all your might at its legs. It attacks in retaliation, your health now sits at {}. ".format(health))
+                        health_check()
+                        print("It is too late though, you deal too much damage and the ogre topples. You raise your sword for one final hit and finish it with one swift strike! ")
+                    if fight_2b == "safe":
+                        print("You go for the safe option and get a couple quick swings at the ogre while sneaking around it. Somehow it works and the ogre topples to the ground!")
+                    print("As the battle concludes, you feel as if something isn't right, was it really that easy? Was the old man lying? Nothing seems to make sense here.")
+                    print("This is when the ogre's body starts to fade away, you hear a voice. 'You've freed me from this prison, now you will take my place in this wretched hole and rot for eternity.'")
+                    print("You realize this is what the old man had meant, no matter how hard you tried there were no exits anywhere, you are truly stuck in this prison forever.")
+                    print("END")
+                    sys.exit()
+                
+                if red_gem == 1:
+                    while True:    
+                        fight_2c = input("You jump to your feet, the creature is awaiting your next move. You notice the creature has horns where it's eyes should be. Do you run head on or do you sneak behind it? ('run'/'sneak') ")
+                        if fight_2c == "run" or fight_2c == "sneak":
+                            break
+                        else:
+                            print("invalid choice")
+                    if fight_2c == "run":
+                        health -= int(random.randint(20,23))
+                        print("You charge forward swinging your sword wildly. You deal significant damage!")
+                        print("However, this reckless attack causes you to take a hit as well. Your health drops to {}. ".format(health))
+                        health_check()
+                    if fight_2c == "sneak":
+                        print("You quietly sneak behind the ogre and attack when it is not expecting it.")
+                    print("Before you can continue fighting, you realize the red gem you kept in your pocket has begun to glow!")
+                    print("You pull it out and the gem only continues to increase in intensity. You are not sure what is happening but the walls of the dungeon around you begin to crumble. ")
+                    print("When the bright stone finally stops glowing, you look around you, you are in the same woods you walked past this morning!")
+                    print("The ogre doesn't seem to care about anymore as it runs further into the trees. You dont know what you've unleashed upon the world but you are glad you are done with that mess.")
+                    print("END")
+                    sys.exit()
+
+
+    
+
+
+
